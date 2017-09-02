@@ -7,7 +7,7 @@ From:ubuntu:latest
 MAINTAINER Steffen.Bollmann@cai.uq.edu.au
 
 %environment
-export PATH=/bet2/bin:${PATH}
+export PATH=/bet2/bin:/dcm2niix/build/bin:${PATH}
 
 %runscript
 echo "This gets run when you run the image!"
@@ -35,9 +35,20 @@ cmake ..
 make -j6
 
 
+
 cd /
 
-wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip /TGVQSM-plus.zip
+git clone https://github.com/rordenlab/dcm2niix
+
+cd dcm2niix
+mkdir build && cd build
+cmake ..
+make
+
+
+cd /
+
+wget "http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip" 
 
 unzip /TGVQSM-plus.zip
 

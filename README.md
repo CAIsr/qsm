@@ -9,7 +9,7 @@ Neuroimage. 2015 May 1;111:622-30. doi: 10.1016/j.neuroimage.2015.02.041. PubMed
 
 # Using the image
 ```
-singularity shell shub://2711
+singularity shell shub://2712
 ```
 
 this will download the image, unpack it and then start a shell in the image mounting the folder where you executed the command from:
@@ -57,11 +57,11 @@ Optional arguments (You may optionally specify one or more of):
 
 Here is an example for a full pipeline:
 ```
-singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img dcm2niix GR_M_5_QSM_p2_1mmIso_TE20/
+singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
 
-singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img dcm2niix GR_P_6_QSM_p2_1mmIso_TE20/
+singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img dcm2niix -o ./ -f phase GR_P_6_QSM_p2_1mmIso_TE20/
 
-singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img bet2 GR_M_5_QSM_p2_1mmIso_TE20/GR_M_5_QSM_p2_1mmIso_TE20_QSM_p2_1mmIso_TE20_20170705134507_5.nii magnitude_bet2
+singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img bet2 magnitude.nii magnitude_bet2
 
-singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img tgv_qsm -p GR_P_6_QSM_p2_1mmIso_TE20/GR_P_6_QSM_p2_1mmIso_TE20_QSM_p2_1mmIso_TE20_20170705134507_6.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -o qsm
+singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
 ```

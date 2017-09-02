@@ -10,7 +10,6 @@ Neuroimage. 2015 May 1;111:622-30. doi: 10.1016/j.neuroimage.2015.02.041. PubMed
 # Using the image
 ```
 singularity shell shub://2711
-
 ```
 
 this will download the image and unpack it and then start a shell in the image mounting the folder where you executed the command and you can now run all minc applications:

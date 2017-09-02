@@ -2,6 +2,11 @@
 
 This singularity image bundles the tgv-qsm algorithm (http://www.neuroimaging.at/pages/qsm.php) with bet2 (https://github.com/liangfu/bet2) and all necessary dependencies.
 
+If you use this image, this is the reference describing the QSM algorithm:
+Langkammer, C; Bredies, K; Poser, BA; Barth, M; Reishofer, G; Fan, AP; Bilgic, B; Fazekas, F; Mainero; C; Ropele, S
+Fast Quantitative Susceptibility Mapping using 3D EPI and Total Generalized Variation.
+Neuroimage. 2015 May 1;111:622-30. doi: 10.1016/j.neuroimage.2015.02.041. PubMed 
+
 # Using the image
 ```
 singularity shell shub://2711

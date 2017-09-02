@@ -19,8 +19,6 @@ Progress |===================================| 100.0%
 Singularity: Invoking an interactive shell within container...
 
 Singularity Singularity CAIsr-singularity-tgv-qsm-v1.0_20170902.img:/test/test-tgv>
-
-
 ```
 
 you can also bind a different directory to your image (e.g. bind /data from your host to /data in your singularity image)
@@ -52,7 +50,6 @@ Optional arguments (You may optionally specify one or more of):
         -e,--mesh       generates brain surface as mesh in vtk format
         -v,--verbose    switch on diagnostic messages
         -h,--help       displays this help, then exits
-
 ```
 
 Here is an example for a full pipeline:

@@ -57,5 +57,3 @@ cd TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3
 python setup.py install
 
 
-%test
-tgv_qsm

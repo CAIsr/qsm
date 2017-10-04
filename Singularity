@@ -8,6 +8,7 @@ MAINTAINER Steffen.Bollmann@cai.uq.edu.au
 
 %environment
 export PATH=/bet2/bin:/dcm2niix/build/bin:${PATH}
+alias ll='ls -la'
 
 %runscript
 echo "This gets run when you run the image!"

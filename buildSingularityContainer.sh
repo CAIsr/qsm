@@ -1,3 +1,3 @@
-singularity create --size 8000 tgv.img
+singularity create --size 12000 tgv.img
 sudo singularity bootstrap tgv.img Singularity
 

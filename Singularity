@@ -21,6 +21,15 @@ apt upgrade -y
 
 apt install -y wget unzip python3 python-numpy python-nibabel python-setuptools cython git cmake
 
+wget http://neuro.debian.net/lists/xenial.au.full 
+
+mv xenial.au.full /etc/apt/sources.list.d/neurodebian.sources.list
+
+apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9
+
+apt update
+
+apt install -y fsl-5.0-complete
 
 
 cd /

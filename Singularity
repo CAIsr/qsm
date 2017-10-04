@@ -34,19 +34,6 @@ apt install -y fsl-5.0-complete
 
 cd /
 
-git clone https://github.com/liangfu/bet2
-
-cd bet2
-
-mkdir build
-cd build
-cmake ..
-make -j6
-
-
-
-cd /
-
 git clone https://github.com/rordenlab/dcm2niix
 
 cd dcm2niix

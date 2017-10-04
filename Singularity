@@ -30,8 +30,7 @@ apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012
 
 apt update
 
-apt install -y fsl-5.0-complete
-
+apt install -y fsl-complete fsleyes
 
 cd /
 

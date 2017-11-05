@@ -5,9 +5,9 @@
 # pull request on our GitHub repository:
 #     https://github.com/kaczmarj/neurodocker
 #
-# Timestamp: 2017-11-05 09:37:56
+# Timestamp: 2017-11-05 00:34:26
 
-FROM ubuntu:17.04
+FROM debian:stretch
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -61,7 +61,7 @@ RUN echo '{ \
     \n  "instructions": [ \
     \n    [ \
     \n      "base", \
-    \n      "ubuntu:17.04" \
+    \n      "debian:stretch" \
     \n    ], \
     \n    [ \
     \n      "fsl", \
@@ -70,6 +70,6 @@ RUN echo '{ \
     \n      } \
     \n    ] \
     \n  ], \
-    \n  "generation_timestamp": "2017-11-05 09:37:56", \
+    \n  "generation_timestamp": "2017-11-05 00:34:26", \
     \n  "neurodocker_version": "0.3.1" \
     \n}' > /neurodocker/neurodocker_specs.json

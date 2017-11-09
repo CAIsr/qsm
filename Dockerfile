@@ -7,7 +7,7 @@
 #
 # Timestamp: 2017-11-05 00:34:26
 
-FROM debian:stretch
+FROM ubuntu:xenial
 
 ARG DEBIAN_FRONTEND=noninteractive
 

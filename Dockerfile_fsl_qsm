@@ -1,7 +1,7 @@
 FROM caisrgit/fsl:master
 
 RUN apt update && apt upgrade -y
-RUN apt install -y wget unzip python3 python3-numpy python3-nibabel python3-setuptools cython git cmake
+RUN apt install -y wget unzip python3 python3-numpy python3-nibabel python3-setuptools cython3 git cmake
 
 WORKDIR /
 RUN wget "http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip"

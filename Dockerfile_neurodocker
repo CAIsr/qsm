@@ -5,7 +5,7 @@
 # pull request on our GitHub repository:
 #     https://github.com/kaczmarj/neurodocker
 #
-# Timestamp: 2017-11-09 21:38:42
+# Timestamp: 2018-02-04 19:02:29
 
 FROM debian:stretch
 
@@ -52,6 +52,22 @@ RUN apt-get update -qq && apt-get install -yq --no-install-recommends bc dc libf
 ENV FSLDIR=/opt/fsl \
     PATH=/opt/fsl/bin:$PATH
 
+#------------------------
+# Install dcm2niix master
+#------------------------
+WORKDIR /tmp
+RUN deps='cmake g++ gcc git make pigz zlib1g-dev' \
+    && apt-get update -qq && apt-get install -yq --no-install-recommends $deps \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && mkdir dcm2niix \
+    && curl -sSL https://github.com/rordenlab/dcm2niix/tarball/master | tar xz -C dcm2niix --strip-components 1 \
+    && mkdir dcm2niix/build && cd dcm2niix/build \
+    && cmake .. && make \
+    && make install \
+    && rm -rf /tmp/* \
+    && apt-get purge -y --auto-remove $deps
+
 #--------------------------------------
 # Save container specifications to JSON
 #--------------------------------------
@@ -68,8 +84,14 @@ RUN echo '{ \
     \n      { \
     \n        "version": "5.0.10" \
     \n      } \
+    \n    ], \
+    \n    [ \
+    \n      "dcm2niix", \
+    \n      { \
+    \n        "version": "latest" \
+    \n      } \
     \n    ] \
     \n  ], \
-    \n  "generation_timestamp": "2017-11-09 21:38:42", \
+    \n  "generation_timestamp": "2018-02-04 19:02:29", \
     \n  "neurodocker_version": "0.3.1" \
     \n}' > /neurodocker/neurodocker_specs.json

@@ -1,11 +1,14 @@
 FROM debian:stretch
 
-RUN apt update
-RUN apt upgrade -y
+RUN apt update && apt upgrade -y
 RUN apt install -y wget unzip python3 python-numpy python-nibabel python-setuptools cython git cmake
 
 RUN git clone https://github.com/rordenlab/dcm2niix.git
 WORKDIR /dcm2niix/build
+RUN cmake .. && make
+
+RUN git clone https://github.com/liangfu/bet2.git
+WORKDIR bet2/build
 RUN cmake .. && make
 
 WORKDIR /
@@ -13,3 +16,6 @@ RUN wget "http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip"
 RUN unzip /TGVQSM-plus.zip
 WORKDIR /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3
 RUN python setup.py install
+
+ENV PATH="/bet2/bin:/dcm2niix/build/bin:${PATH}"
+WORKDIR /

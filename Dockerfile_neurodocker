@@ -90,7 +90,7 @@ RUN unzip /TGVQSM-plus.zip
 WORKDIR /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3
 
 # User-defined instruction
-RUN python setup.py install
+RUN python3 setup.py install
 
 #--------------------------------------
 # Save container specifications to JSON

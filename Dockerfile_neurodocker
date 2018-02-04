@@ -5,7 +5,7 @@
 # pull request on our GitHub repository:
 #     https://github.com/kaczmarj/neurodocker
 #
-# Timestamp: 2018-02-04 19:02:29
+# Timestamp: 2018-02-04 21:45:27
 
 FROM debian:stretch
 
@@ -68,6 +68,30 @@ RUN deps='cmake g++ gcc git make pigz zlib1g-dev' \
     && rm -rf /tmp/* \
     && apt-get purge -y --auto-remove $deps
 
+RUN apt-get update -qq \
+    && apt-get install -y -q --no-install-recommends wget \
+                                                     unzip \
+                                                     python3 \
+                                                     python-numpy \
+                                                     python-nibabel \
+                                                     python-setuptools \
+                                                     cython \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+WORKDIR /
+
+# User-defined instruction
+RUN wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip
+
+# User-defined instruction
+RUN unzip /TGVQSM-plus.zip
+
+WORKDIR /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3
+
+# User-defined instruction
+RUN python setup.py install
+
 #--------------------------------------
 # Save container specifications to JSON
 #--------------------------------------
@@ -90,8 +114,40 @@ RUN echo '{ \
     \n      { \
     \n        "version": "latest" \
     \n      } \
+    \n    ], \
+    \n    [ \
+    \n      "install", \
+    \n      [ \
+    \n        "wget", \
+    \n        "unzip", \
+    \n        "python3", \
+    \n        "python-numpy", \
+    \n        "python-nibabel", \
+    \n        "python-setuptools", \
+    \n        "cython" \
+    \n      ] \
+    \n    ], \
+    \n    [ \
+    \n      "workdir", \
+    \n      "/" \
+    \n    ], \
+    \n    [ \
+    \n      "run", \
+    \n      "wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip" \
+    \n    ], \
+    \n    [ \
+    \n      "run", \
+    \n      "unzip /TGVQSM-plus.zip" \
+    \n    ], \
+    \n    [ \
+    \n      "workdir", \
+    \n      "/TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3" \
+    \n    ], \
+    \n    [ \
+    \n      "run", \
+    \n      "python setup.py install" \
     \n    ] \
     \n  ], \
-    \n  "generation_timestamp": "2018-02-04 19:02:29", \
+    \n  "generation_timestamp": "2018-02-04 21:45:27", \
     \n  "neurodocker_version": "0.3.1" \
     \n}' > /neurodocker/neurodocker_specs.json

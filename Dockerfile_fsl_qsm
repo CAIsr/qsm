@@ -7,6 +7,6 @@ WORKDIR /
 RUN wget "http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip"
 RUN unzip /TGVQSM-plus.zip
 WORKDIR /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3
-RUN python setup.py install
+RUN python3 setup.py install
 
 WORKDIR /

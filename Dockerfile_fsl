@@ -68,17 +68,6 @@ RUN deps='cmake g++ gcc git make pigz zlib1g-dev' \
     && rm -rf /tmp/* \
     && apt-get purge -y --auto-remove $deps
 
-RUN apt-get update -qq \
-    && apt-get install -y -q --no-install-recommends wget \
-                                                     unzip \
-                                                     python3 \
-                                                     python-numpy \
-                                                     python-nibabel \
-                                                     python-setuptools \
-                                                     cython \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 #--------------------------------------
 # Save container specifications to JSON
 #--------------------------------------

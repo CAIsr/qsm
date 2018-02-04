@@ -7,5 +7,4 @@ neurodocker generate \
 	--pkg-manager apt \
 	--fsl version=5.0.10 \
 	--dcm2niix version='latest' \
-	--install wget unzip python3 python-numpy python-nibabel python-setuptools cython \
 	> Dockerfile_fsl

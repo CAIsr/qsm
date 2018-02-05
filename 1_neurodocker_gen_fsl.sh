@@ -5,7 +5,7 @@
 neurodocker generate \
 	--base neurodebian:stretch-non-free \
 	--pkg-manager apt \
-	--install fsl fsleyes fslview \
+	--install fsl fsleyes \
 	--add-to-entrypoint "source /etc/fsl/fsl.sh" \
 	--user=neuro \
 	--workdir /home/neuro \

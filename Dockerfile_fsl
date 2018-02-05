@@ -5,7 +5,7 @@
 # pull request on our GitHub repository:
 #     https://github.com/kaczmarj/neurodocker
 #
-# Timestamp: 2018-02-05 11:51:47
+# Timestamp: 2018-02-05 20:32:12
 
 FROM ubuntu:latest
 
@@ -92,6 +92,6 @@ RUN echo '{ \
     \n      } \
     \n    ] \
     \n  ], \
-    \n  "generation_timestamp": "2018-02-05 11:51:47", \
+    \n  "generation_timestamp": "2018-02-05 20:32:12", \
     \n  "neurodocker_version": "0.3.1" \
     \n}' > /neurodocker/neurodocker_specs.json

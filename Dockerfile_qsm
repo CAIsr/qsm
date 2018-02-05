@@ -1,7 +1,7 @@
 FROM debian:stretch
 
 RUN apt update && apt upgrade -y
-RUN apt install -y wget unzip python3 python-numpy python-nibabel python-setuptools cython git cmake
+RUN apt install -y wget unzip python3 python-numpy python-nibabel python-setuptools cython git
 
 RUN git clone https://github.com/rordenlab/dcm2niix.git
 WORKDIR /dcm2niix/build

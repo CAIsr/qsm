@@ -22,21 +22,21 @@ Singularity: Invoking an interactive shell within container...
 
 you can also bind a different directory to your image (e.g. bind /data from your host to /data in your singularity image)
 ```
-singularity shell --bind /data:/data/ CAIsr-singularity-tgv-qsm-v1.0_20170902.img
+singularity shell --bind /data:/data/ REPLACEME
 ```
 
 or you can just run a single application from the image:
 ```
-singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img bet2
+singularity exec REPLACEME bet2
 ```
 
 Here is an example for a full pipeline:
 ```
-singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
+singularity exec REPLACEME dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
 
-singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img dcm2niix -o ./ -f phase GR_P_6_QSM_p2_1mmIso_TE20/
+singularity exec REPLACEME dcm2niix -o ./ -f phase GR_P_6_QSM_p2_1mmIso_TE20/
 
-singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img bet2 magnitude.nii magnitude_bet2
+singularity exec REPLACEME bet2 magnitude.nii magnitude_bet2
 
-singularity exec CAIsr-singularity-tgv-qsm-v1.0_20170902.img tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
+singularity exec REPLACEME tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
 ```

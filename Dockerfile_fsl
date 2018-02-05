@@ -5,9 +5,9 @@
 # pull request on our GitHub repository:
 #     https://github.com/kaczmarj/neurodocker
 #
-# Timestamp: 2018-02-04 22:17:22
+# Timestamp: 2018-02-05 11:51:47
 
-FROM debian:stretch
+FROM ubuntu:latest
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -77,7 +77,7 @@ RUN echo '{ \
     \n  "instructions": [ \
     \n    [ \
     \n      "base", \
-    \n      "debian:stretch" \
+    \n      "ubuntu:latest" \
     \n    ], \
     \n    [ \
     \n      "fsl", \
@@ -90,20 +90,8 @@ RUN echo '{ \
     \n      { \
     \n        "version": "latest" \
     \n      } \
-    \n    ], \
-    \n    [ \
-    \n      "install", \
-    \n      [ \
-    \n        "wget", \
-    \n        "unzip", \
-    \n        "python3", \
-    \n        "python-numpy", \
-    \n        "python-nibabel", \
-    \n        "python-setuptools", \
-    \n        "cython" \
-    \n      ] \
     \n    ] \
     \n  ], \
-    \n  "generation_timestamp": "2018-02-04 22:17:22", \
+    \n  "generation_timestamp": "2018-02-05 11:51:47", \
     \n  "neurodocker_version": "0.3.1" \
     \n}' > /neurodocker/neurodocker_specs.json

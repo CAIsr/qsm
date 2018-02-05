@@ -3,7 +3,7 @@
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
 neurodocker generate \
-	--base debian:stretch \
+	--base ubuntu:latest \
 	--pkg-manager apt \
 	--fsl version=5.0.10 \
 	--dcm2niix version='latest' \

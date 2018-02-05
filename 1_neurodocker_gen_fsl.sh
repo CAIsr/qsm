@@ -3,8 +3,7 @@
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
 neurodocker generate \
-	--base ubuntu:17.04 \
+	--base neurodebian:stretch-non-free \
 	--pkg-manager apt \
-	--fsl version=5.0.10 \
-	--dcm2niix version='latest' \
+	--install fsl dcm2niix \
 	> Dockerfile_fsl

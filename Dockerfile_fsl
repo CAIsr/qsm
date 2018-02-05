@@ -5,9 +5,9 @@
 # pull request on our GitHub repository:
 #     https://github.com/kaczmarj/neurodocker
 #
-# Timestamp: 2018-02-05 20:57:29
+# Timestamp: 2018-02-05 21:09:07
 
-FROM ubuntu:17.04
+FROM neurodebian:stretch-non-free
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -32,41 +32,11 @@ RUN apt-get update -qq && apt-get install -yq --no-install-recommends  \
     && chmod -R 777 /neurodocker && chmod a+s /neurodocker
 ENTRYPOINT ["/neurodocker/startup.sh"]
 
-#-----------------------------------------------------------
-# Install FSL v5.0.10
-# FSL is non-free. If you are considering commerical use
-# of this Docker image, please consult the relevant license:
-# https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Licence
-#-----------------------------------------------------------
-RUN apt-get update -qq && apt-get install -yq --no-install-recommends bc dc libfontconfig1 libfreetype6 libgl1-mesa-dev libglu1-mesa-dev libgomp1 libice6 libmng1 libxcursor1 libxft2 libxinerama1 libxrandr2 libxrender1 libxt6 \
+RUN apt-get update -qq \
+    && apt-get install -y -q --no-install-recommends fsl \
+                                                     dcm2niix \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && echo "Downloading FSL ..." \
-    && curl -sSL https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-5.0.10-centos6_64.tar.gz \
-    | tar zx -C /opt \
-    && /bin/bash /opt/fsl/etc/fslconf/fslpython_install.sh -q -f /opt/fsl \
-    && sed -i '$iecho Some packages in this Docker container are non-free' $ND_ENTRYPOINT \
-    && sed -i '$iecho If you are considering commercial use of this container, please consult the relevant license:' $ND_ENTRYPOINT \
-    && sed -i '$iecho https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Licence' $ND_ENTRYPOINT \
-    && sed -i '$isource $FSLDIR/etc/fslconf/fsl.sh' $ND_ENTRYPOINT
-ENV FSLDIR=/opt/fsl \
-    PATH=/opt/fsl/bin:$PATH
-
-#------------------------
-# Install dcm2niix master
-#------------------------
-WORKDIR /tmp
-RUN deps='cmake g++ gcc git make pigz zlib1g-dev' \
-    && apt-get update -qq && apt-get install -yq --no-install-recommends $deps \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && mkdir dcm2niix \
-    && curl -sSL https://github.com/rordenlab/dcm2niix/tarball/master | tar xz -C dcm2niix --strip-components 1 \
-    && mkdir dcm2niix/build && cd dcm2niix/build \
-    && cmake .. && make \
-    && make install \
-    && rm -rf /tmp/* \
-    && apt-get purge -y --auto-remove $deps
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 #--------------------------------------
 # Save container specifications to JSON
@@ -77,21 +47,16 @@ RUN echo '{ \
     \n  "instructions": [ \
     \n    [ \
     \n      "base", \
-    \n      "ubuntu:17.04" \
+    \n      "neurodebian:stretch-non-free" \
     \n    ], \
     \n    [ \
-    \n      "fsl", \
-    \n      { \
-    \n        "version": "5.0.10" \
-    \n      } \
-    \n    ], \
-    \n    [ \
-    \n      "dcm2niix", \
-    \n      { \
-    \n        "version": "latest" \
-    \n      } \
+    \n      "install", \
+    \n      [ \
+    \n        "fsl", \
+    \n        "dcm2niix" \
+    \n      ] \
     \n    ] \
     \n  ], \
-    \n  "generation_timestamp": "2018-02-05 20:57:29", \
+    \n  "generation_timestamp": "2018-02-05 21:09:07", \
     \n  "neurodocker_version": "0.3.1" \
     \n}' > /neurodocker/neurodocker_specs.json

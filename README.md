@@ -43,8 +43,8 @@ singularity exec CAIsr-qsm-v1.2.2-latest.simg tgv_qsm -p phase.nii -m magnitude_
 
 # Using the image in docker
 ```
-sudo docker pull caisrgit/qsm
-sudo docker run -it -v $PWD:/data caisrgit/qsm
+sudo docker pull caid/qsm
+sudo docker run -it -v $PWD:/data caid/qsm
 
 cd data
 dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/

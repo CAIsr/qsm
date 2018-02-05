@@ -7,7 +7,6 @@ From:caisrgit/qsm:master
 MAINTAINER Steffen.Bollmann@cai.uq.edu.au
 
 %environment
-alias ll='ls -la'
 
 %runscript
 echo "This gets run when you run the image!"

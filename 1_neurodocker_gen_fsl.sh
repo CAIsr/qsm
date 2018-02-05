@@ -2,6 +2,9 @@
 #install neurodocker
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
+#upgrade neurodocker
+#pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
+
 neurodocker generate \
 	--base neurodebian:stretch-non-free \
 	--pkg-manager apt \

@@ -5,7 +5,7 @@
 # pull request on our GitHub repository:
 #     https://github.com/kaczmarj/neurodocker
 #
-# Timestamp: 2018-02-05 21:09:07
+# Timestamp: 2018-02-05 21:18:25
 
 FROM neurodebian:stretch-non-free
 
@@ -38,12 +38,21 @@ RUN apt-get update -qq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Add command(s) to entrypoint
+RUN sed -i '$isource /etc/fsl/fsl.sh' $ND_ENTRYPOINT
+
+# Create new user: neuro
+RUN useradd --no-user-group --create-home --shell /bin/bash neuro
+USER neuro
+
+WORKDIR /home/neuro
+
 #--------------------------------------
 # Save container specifications to JSON
 #--------------------------------------
 RUN echo '{ \
     \n  "pkg_manager": "apt", \
-    \n  "check_urls": true, \
+    \n  "check_urls": false, \
     \n  "instructions": [ \
     \n    [ \
     \n      "base", \
@@ -55,8 +64,22 @@ RUN echo '{ \
     \n        "fsl", \
     \n        "dcm2niix" \
     \n      ] \
+    \n    ], \
+    \n    [ \
+    \n      "add_to_entrypoint", \
+    \n      [ \
+    \n        "source /etc/fsl/fsl.sh" \
+    \n      ] \
+    \n    ], \
+    \n    [ \
+    \n      "user", \
+    \n      "neuro" \
+    \n    ], \
+    \n    [ \
+    \n      "workdir", \
+    \n      "/home/neuro" \
     \n    ] \
     \n  ], \
-    \n  "generation_timestamp": "2018-02-05 21:09:07", \
+    \n  "generation_timestamp": "2018-02-05 21:18:25", \
     \n  "neurodocker_version": "0.3.1" \
     \n}' > /neurodocker/neurodocker_specs.json

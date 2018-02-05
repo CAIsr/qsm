@@ -6,4 +6,8 @@ neurodocker generate \
 	--base neurodebian:stretch-non-free \
 	--pkg-manager apt \
 	--install fsl dcm2niix \
+	--add-to-entrypoint "source /etc/fsl/fsl.sh" \
+	--user=neuro \
+	--workdir /home/neuro \
+	--no-check-urls \
 	> Dockerfile_fsl

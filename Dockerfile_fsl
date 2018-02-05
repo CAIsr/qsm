@@ -5,7 +5,7 @@
 # pull request on our GitHub repository:
 #     https://github.com/kaczmarj/neurodocker
 #
-# Timestamp: 2018-02-05 21:18:25
+# Timestamp: 2018-02-05 21:22:55
 
 FROM neurodebian:stretch-non-free
 
@@ -35,6 +35,8 @@ ENTRYPOINT ["/neurodocker/startup.sh"]
 RUN apt-get update -qq \
     && apt-get install -y -q --no-install-recommends fsl \
                                                      dcm2niix \
+                                                     fsleyes \
+                                                     fslview \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -62,7 +64,9 @@ RUN echo '{ \
     \n      "install", \
     \n      [ \
     \n        "fsl", \
-    \n        "dcm2niix" \
+    \n        "dcm2niix", \
+    \n        "fsleyes", \
+    \n        "fslview" \
     \n      ] \
     \n    ], \
     \n    [ \
@@ -80,6 +84,6 @@ RUN echo '{ \
     \n      "/home/neuro" \
     \n    ] \
     \n  ], \
-    \n  "generation_timestamp": "2018-02-05 21:18:25", \
+    \n  "generation_timestamp": "2018-02-05 21:22:55", \
     \n  "neurodocker_version": "0.3.1" \
     \n}' > /neurodocker/neurodocker_specs.json

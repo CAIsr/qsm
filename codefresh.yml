@@ -3,13 +3,13 @@ steps:
   BuildingDockerImage:
     title: Building Docker Image
     type: build
-    image_name: caisrgit/qsm
+    image_name: caid/qsm
     working_directory: ./
     dockerfile: Dockerfile_qsm
-    tag: 'latest'
-  PushToDockerHub:
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+  PushingToDockerRegistry:
+    title: Pushing to Docker Registry
     type: push
-    title: pushing to dockerhub
-    candidate: ${{build_step_name}}
-    tag: latest
-    fail_fast: false
+    candidate: '${{BuildingDockerImage}}'
+    tag: 'latest'
+    registry: dockerhub

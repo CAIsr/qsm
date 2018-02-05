@@ -22,23 +22,23 @@ Singularity: Invoking an interactive shell within container...
 
 you can also bind a different directory to your image (e.g. bind /data from your host to /data in your singularity image)
 ```
-singularity shell --bind /data:/data/ CAIsr-qsm-v1.2.2-latest.simg
+singularity shell --bind /data:/data/ CAIsr-qsm-v1.2.3-latest.simg
 ```
 
 or you can just run a single application from the image:
 ```
-singularity exec CAIsr-qsm-v1.2.2-latest.simg bet2
+singularity exec CAIsr-qsm-v1.2.3-latest.simg bet2
 ```
 
 Here is an example for a full pipeline:
 ```
-singularity exec CAIsr-qsm-v1.2.2-latest.simg dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
+singularity exec CAIsr-qsm-v1.2.3-latest.simg dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
 
-singularity exec CAIsr-qsm-v1.2.2-latest.simg dcm2niix -o ./ -f phase GR_P_6_QSM_p2_1mmIso_TE20/
+singularity exec CAIsr-qsm-v1.2.3-latest.simg dcm2niix -o ./ -f phase GR_P_6_QSM_p2_1mmIso_TE20/
 
-singularity exec CAIsr-qsm-v1.2.2-latest.simg bet2 magnitude.nii magnitude_bet2
+singularity exec CAIsr-qsm-v1.2.3-latest.simg bet2 magnitude.nii magnitude_bet2
 
-singularity exec CAIsr-qsm-v1.2.2-latest.simg tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
+singularity exec CAIsr-qsm-v1.2.3-latest.simg tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
 ```
 
 # Using the image in docker

@@ -1,3 +1,2 @@
-singularity create --size 12000 tgv.img
-sudo singularity bootstrap tgv.img Singularity
-
+sudo singularity build qsm.simg Singularity.qsm
+sudo singularity build fsl.simg Singularity.fsl

@@ -5,7 +5,7 @@
 # pull request on our GitHub repository:
 #     https://github.com/kaczmarj/neurodocker
 #
-# Timestamp: 2018-02-05 21:33:20
+# Timestamp: 2018-02-05 21:43:59
 
 FROM neurodebian:stretch-non-free
 
@@ -32,14 +32,25 @@ RUN apt-get update -qq && apt-get install -yq --no-install-recommends  \
     && chmod -R 777 /neurodocker && chmod a+s /neurodocker
 ENTRYPOINT ["/neurodocker/startup.sh"]
 
-RUN apt-get update -qq \
-    && apt-get install -y -q --no-install-recommends fsl \
-                                                     fsleyes \
+#-----------------------------------------------------------
+# Install FSL v5.0.10
+# FSL is non-free. If you are considering commerical use
+# of this Docker image, please consult the relevant license:
+# https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Licence
+#-----------------------------------------------------------
+RUN apt-get update -qq && apt-get install -yq --no-install-recommends bc dc libfontconfig1 libfreetype6 libgl1-mesa-dev libglu1-mesa-dev libgomp1 libice6 libmng1 libxcursor1 libxft2 libxinerama1 libxrandr2 libxrender1 libxt6 \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Add command(s) to entrypoint
-RUN sed -i '$isource /etc/fsl/fsl.sh' $ND_ENTRYPOINT
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && echo "Downloading FSL ..." \
+    && curl -sSL https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-5.0.10-centos6_64.tar.gz \
+    | tar zx -C /opt \
+    && /bin/bash /opt/fsl/etc/fslconf/fslpython_install.sh -q -f /opt/fsl \
+    && sed -i '$iecho Some packages in this Docker container are non-free' $ND_ENTRYPOINT \
+    && sed -i '$iecho If you are considering commercial use of this container, please consult the relevant license:' $ND_ENTRYPOINT \
+    && sed -i '$iecho https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Licence' $ND_ENTRYPOINT \
+    && sed -i '$isource $FSLDIR/etc/fslconf/fsl.sh' $ND_ENTRYPOINT
+ENV FSLDIR=/opt/fsl \
+    PATH=/opt/fsl/bin:$PATH
 
 # Create new user: neuro
 RUN useradd --no-user-group --create-home --shell /bin/bash neuro
@@ -59,17 +70,10 @@ RUN echo '{ \
     \n      "neurodebian:stretch-non-free" \
     \n    ], \
     \n    [ \
-    \n      "install", \
-    \n      [ \
-    \n        "fsl", \
-    \n        "fsleyes" \
-    \n      ] \
-    \n    ], \
-    \n    [ \
-    \n      "add_to_entrypoint", \
-    \n      [ \
-    \n        "source /etc/fsl/fsl.sh" \
-    \n      ] \
+    \n      "fsl", \
+    \n      { \
+    \n        "version": "5.0.10" \
+    \n      } \
     \n    ], \
     \n    [ \
     \n      "user", \
@@ -80,6 +84,6 @@ RUN echo '{ \
     \n      "/home/neuro" \
     \n    ] \
     \n  ], \
-    \n  "generation_timestamp": "2018-02-05 21:33:20", \
+    \n  "generation_timestamp": "2018-02-05 21:43:59", \
     \n  "neurodocker_version": "0.3.1" \
     \n}' > /neurodocker/neurodocker_specs.json

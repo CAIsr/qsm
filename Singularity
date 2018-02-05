@@ -1,5 +1,5 @@
 BootStrap:docker
-From:caisrgit/qsm:master
+From:caisrgit/qsm
 
 %files
 

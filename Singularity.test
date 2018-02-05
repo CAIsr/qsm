@@ -1,5 +1,5 @@
 BootStrap:docker
-From:caisrgit/fsl:master
+From:caisrgit/qsm:master
 
 %files
 
@@ -15,4 +15,4 @@ echo "This gets run when you run the image!"
 %post
 echo "This section happens once after bootstrap to build the image."
 apt update
-apt install -y python3-pyqt5 libpng-dev
+apt install -y python3-pyqt5 libpng-dev gedit

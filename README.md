@@ -40,3 +40,15 @@ singularity exec CAIsr-qsm-v1.2.2-latest.simg bet2 magnitude.nii magnitude_bet2
 
 singularity exec CAIsr-qsm-v1.2.2-latest.simg tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
 ```
+
+# Using the image in docker
+```
+sudo docker pull caisrgit/qsm
+sudo docker run -it -v $PWD:/data caisrgit/qsm
+
+cd data
+dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
+dcm2niix -o ./ -f phase GR_P_6_QSM_p2_1mmIso_TE20/
+bet2 magnitude.nii magnitude_bet2
+tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
+```

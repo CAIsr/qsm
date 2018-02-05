@@ -7,9 +7,9 @@ Langkammer, C; Bredies, K; Poser, BA; Barth, M; Reishofer, G; Fan, AP; Bilgic, B
 Fast Quantitative Susceptibility Mapping using 3D EPI and Total Generalized Variation.
 Neuroimage. 2015 May 1;111:622-30. doi: 10.1016/j.neuroimage.2015.02.041. PubMed 
 
-# Using the image
+# Using the image in singularity
 ```
-singularity shell shub://2712
+singularity shell shub://CAIsr/qsm
 ```
 
 this will download the image, unpack it and then start a shell in the image mounting the folder where you executed the command from:
@@ -18,7 +18,6 @@ this will download the image, unpack it and then start a shell in the image moun
 Progress |===================================| 100.0%
 Singularity: Invoking an interactive shell within container...
 
-Singularity Singularity CAIsr-singularity-tgv-qsm-v1.0_20170902.img:/test/test-tgv>
 ```
 
 you can also bind a different directory to your image (e.g. bind /data from your host to /data in your singularity image)

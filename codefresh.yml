@@ -7,10 +7,9 @@ steps:
     working_directory: ./
     dockerfile: Dockerfile_qsm
     tag: 'latest'
- PushToDockerHub:
-  type: push
-  title: pushing to dockerhub
-  candidate: ${{build_step_name}}
-  tag: latest
-  image_name: caisrgit/qsm
-  fail_fast: false
+  PushToDockerHub:
+    type: push
+    title: pushing to dockerhub
+    candidate: ${{build_step_name}}
+    tag: latest
+    fail_fast: false

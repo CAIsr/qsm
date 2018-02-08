@@ -30,7 +30,7 @@ or you can just run a single application from the image:
 singularity exec CAIsr-qsm-v1.2.3-latest.simg bet2
 ```
 
-Here is an example for a full pipeline:
+Here is an example for a single echo QSM pipeline:
 ```
 singularity exec CAIsr-qsm-v1.2.3-latest.simg dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
 
@@ -38,7 +38,43 @@ singularity exec CAIsr-qsm-v1.2.3-latest.simg dcm2niix -o ./ -f phase GR_P_6_QSM
 
 singularity exec CAIsr-qsm-v1.2.3-latest.simg bet2 magnitude.nii magnitude_bet2
 
-singularity exec CAIsr-qsm-v1.2.3-latest.simg tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
+singularity exec CAIsr-qsm-v1.2.3-latest.simg tgv_qsm \
+  -p phase.nii \
+  -m magnitude_bet2_mask.nii.gz \
+  -f 2.89 \
+  -t 0.02 \
+  -s \
+  -o qsm
+```
+
+And an example for a multiecho QSM pipeline:
+```
+subject=yoursubjectID
+
+echoTime=(`seq 0.0049 0.0049 0.0295`)
+
+fslsplit ${subject}_gre6magni.nii ${subject}_gre6magni_split_
+fslsplit ${subject}_gre6phase.nii ${subject}_gre6phase_split_
+
+for echoNbr in {0..5}; do
+ bet ${subject}_gre6magni_split_000${echoNbr}.nii ${subject}_gre6magni_split_000${echoNbr}_bet -R -f 0.6 -m
+ fslcpgeom ${subject}_gre6magni_split_000${echoNbr}_bet_mask.nii ${subject}_gre6phase_split_000${echoNbr}.nii
+done
+
+for echoNbr in {0..5}; do
+        singularity \
+        exec \
+        --bind $PWD:/data \
+        CAIsr-qsm-v1.2.3-latest.simg \
+        tgv_qsm \
+        -p /data/${subject}_gre6phase_split_000${echoNbr}.nii \
+        -m /data/${subject}_gre6magni_split_000${echoNbr}_bet_mask.nii \
+        -f 2.89 \
+        -t ${echoTime[5]} \
+        -s \
+        -o tgvqsm
+done
+
 ```
 
 # Using the image in docker

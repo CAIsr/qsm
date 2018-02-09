@@ -70,10 +70,12 @@ for echoNbr in {0..5}; do
         -p /data/${subject}_gre6phase_split_000${echoNbr}.nii \
         -m /data/${subject}_gre6magni_split_000${echoNbr}_bet_mask.nii \
         -f 2.89 \
+        -e 0 \
         -t ${echoTime[5]} \
         -s \
         -o tgvqsm
 done
+
 
 ```
 

@@ -1,6 +1,7 @@
 # QSM Pipeline
 
 [![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/557)
+[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=CAIsr&repoName=qsm&branch=master&pipelineName=qsm&accountName=stebo85&type=cf-1)]( https://g.codefresh.io/repositories/CAIsr/qsm/builds?filter=trigger:build;branch:master;service:5a76acf275bdfd000166774f~qsm)
 
 This docker and singularity image bundles the tgv-qsm algorithm (http://www.neuroimaging.at/pages/qsm.php) with fsl (https://www.fmrib.ox.ac.uk/fsl) and dcm2niix (https://github.com/rordenlab/dcm2niix) and all necessary dependencies. This image provides a complete QSM processing pipeline starting from converting dicom images to nii, creating the brain mask using bet, rescaling phase data, running tgv on this data and checking the outputs.
 

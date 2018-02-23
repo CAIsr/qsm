@@ -1,5 +1,5 @@
 BootStrap:docker
-From:caisrgit/fsl:master
+From:caid/fsl:master
 
 %files
 

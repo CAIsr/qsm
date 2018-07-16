@@ -14,20 +14,19 @@ buildDate=`date +%Y%m%d`
 
 
 neurodocker generate docker \
-   --base=debian:wheezy \
+   --base=neurodebian:jessie \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir /90days /30days /QRISdata /RDS /data /short /proc_temp /TMPDIR /nvme /local /gpfs1" \
    --run="locale-gen en_US.UTF-8" \
    --run="dpkg-reconfigure locales" \
-   --install apt_opts='--quiet' python-setuptools wget unzip python3 python-numpy python-nibabel cython libdbus-glib-1-2 libjpeg62 libgtk2.0-0 libpng12-0 \
+   --install apt_opts='--quiet' python-setuptools wget unzip python3 python-numpy python-nibabel cython libdbus-glib-1-2 libjpeg62 libgtk2.0-0 libpng12-0 dicom2niix \
    --workdir /\
    --run "wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip" \
    --run "unzip /TGVQSM-plus.zip" \
    --workdir /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 \
    --run "python setup.py install" \
-   --dcm2niix version=latest method=source \
    --fsl version=5.0.11 \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
    --user=neuro \
@@ -57,3 +56,5 @@ echo "From:caid/${imageName}" >> Singularity.${imageName}
 rm ${imageName}_${buildDate}.simg
 sudo singularity build ${imageName}_${buildDate}.simg Singularity.${imageName}
 
+git commit -am 'auto commit after build run'
+git push

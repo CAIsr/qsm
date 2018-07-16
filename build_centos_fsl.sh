@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-imageName='tgvqsm_fsl_5p0p11'
+imageName='centos_fsl_5p0p11'
 buildDate=`date +%Y%m%d`
 
 #install neurodocker
@@ -14,23 +14,12 @@ buildDate=`date +%Y%m%d`
 
 
 neurodocker generate docker \
-   --base=debian:stretch \
-   --pkg-manager apt \
-   --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
-   --run="chmod +x /usr/bin/ll" \
-   --run="mkdir /90days /30days /QRISdata /RDS /data /short /proc_temp /TMPDIR /nvme /local /gpfs1" \
-   --run="locale-gen en_US.UTF-8" \
-   --run="dpkg-reconfigure locales" \
-   --install apt_opts='--quiet' python-setuptools wget unzip python3 python-numpy python-nibabel cython libdbus-glib-1-2 libjpeg62 libgtk2.0-0 \
+   --base=centos:7 \
+   --pkg-manager yum \
    --workdir /\
-   --run "wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip" \
-   --run "unzip /TGVQSM-plus.zip" \
-   --workdir /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 \
-   --run "python setup.py install" \
-   --dcm2niix version=latest method=source \
    --fsl version=5.0.11 \
+   --install gtk2 \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
-   --install liblz1 \
    --user=neuro \
    > Dockerfile.${imageName}
 

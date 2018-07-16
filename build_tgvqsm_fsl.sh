@@ -14,14 +14,14 @@ buildDate=`date +%Y%m%d`
 
 
 neurodocker generate docker \
-   --base=debian:stretch \
+   --base=debian:wheezy \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir /90days /30days /QRISdata /RDS /data /short /proc_temp /TMPDIR /nvme /local /gpfs1" \
    --run="locale-gen en_US.UTF-8" \
    --run="dpkg-reconfigure locales" \
-   --install apt_opts='--quiet' python-setuptools wget unzip python3 python-numpy python-nibabel cython libdbus-glib-1-2 libjpeg62 libgtk2.0-0 \
+   --install apt_opts='--quiet' python-setuptools wget unzip python3 python-numpy python-nibabel cython libdbus-glib-1-2 libjpeg62 libgtk2.0-0 libpng12-0 \
    --workdir /\
    --run "wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip" \
    --run "unzip /TGVQSM-plus.zip" \
@@ -30,7 +30,6 @@ neurodocker generate docker \
    --dcm2niix version=latest method=source \
    --fsl version=5.0.11 \
    --env FSLOUTPUTTYPE=NIFTI_GZ \
-   --install liblz1 \
    --user=neuro \
    > Dockerfile.${imageName}
 

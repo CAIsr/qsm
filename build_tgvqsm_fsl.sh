@@ -27,8 +27,7 @@ neurodocker generate docker \
    --workdir /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 \
    --run "python setup.py install" \
    --fsl version=5.0.11 \
-   --env FSLOUTPUTTYPE=NIFTI \
-   --env FSLOUTPUTTYPE_TEST=NIFTI \
+   --run="sed -i 's/FSLOUTPUTTYPE=NIFTI_GZ/FSLOUTPUTTYPE=NIFTI/g' /opt/fsl-5.0.11/etc/fslconf/fsl.sh" \
    --user=neuro \
    > Dockerfile.${imageName}
 

@@ -2,6 +2,10 @@
 
 imageName='tgvqsm'
 buildDate=`date +%Y%m%d`
+buildPlatform=`cat /proc/cpuinfo | grep 'vendor' | uniq | cut -d ' ' -f 2`
+imageName=${imageName}_${buildPlatform}
+
+echo 'building $imageName'
 
 #install neurodocker
 #pip3 install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user

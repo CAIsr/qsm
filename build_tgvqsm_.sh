@@ -3,9 +3,14 @@
 imageName='tgvqsm'
 buildDate=`date +%Y%m%d`
 buildPlatform=`cat /proc/cpuinfo | grep 'vendor' | uniq | cut -d ' ' -f 2`
+
+if [ "$(buildPlatform)" != 'AuthenticAMD' ]; then
+   buildPlatform='amd'
+fi
+
 imageName=${imageName}_${buildPlatform}
 
-echo 'building $imageName'
+echo "building $imageName"
 
 #install neurodocker
 #pip3 install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user

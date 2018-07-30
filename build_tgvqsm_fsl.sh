@@ -1,7 +1,29 @@
 #!/usr/bin/env bash
+set -e
 
-imageName='tgvqsm_fsl_5p0p11'
+imageName='tgvqsm'
 buildDate=`date +%Y%m%d`
+
+
+buildPlatform=`cat /proc/cpuinfo | grep 'vendor' | uniq | cut -d ' ' -f 2`
+
+echo $buildPlatform
+
+if [ "$buildPlatform" = "AuthenticAMD" ]; then
+   echo "detected amd"
+   export buildPlatform='amd'
+ fi
+
+ if [ "$buildPlatform" = "GenuineIntel" ]; then
+   echo "detected intel"
+   export buildPlatform='intel'
+ fi
+
+imageName=${imageName}_${buildPlatform}
+
+
+echo "building $imageName"
+
 
 #install neurodocker
 #pip3 install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
@@ -12,22 +34,24 @@ buildDate=`date +%Y%m%d`
 #pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
 
 
-
 neurodocker generate docker \
    --base=neurodebian:jessie \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir /90days /30days /QRISdata /RDS /data /short /proc_temp /TMPDIR /nvme /local /gpfs1" \
+   --copy globalMountPointList.txt /globalMountPointList.txt \
+   --run="mkdir \`cat /globalMountPointList.txt\`" \
+   --install apt_opts='--quiet' cmake git python-setuptools wget unzip python3 python-numpy python-nibabel cython \
+   --run="git clone https://github.com/liangfu/bet2.git" \
+   --workdir /bet2/build \
+   --run="cmake .. && make" \
    --dcm2niix version=latest method=source \
-   --install apt_opts='--quiet' python-setuptools wget unzip python3 python-numpy python-nibabel cython libdbus-glib-1-2 libjpeg62 libgtk2.0-0 libpng12-0 \
    --workdir /\
    --run "wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip" \
    --run "unzip /TGVQSM-plus.zip" \
    --workdir /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 \
    --run "python setup.py install" \
    --fsl version=5.0.11 \
-   --run="sed -i 's/FSLOUTPUTTYPE=NIFTI_GZ/FSLOUTPUTTYPE_NOTSET=NIFTI/g' /opt/fsl-5.0.11/etc/fslconf/fsl.sh" \
    --user=neuro \
    > Dockerfile.${imageName}
 
@@ -54,6 +78,9 @@ echo "From:caid/${imageName}" >> Singularity.${imageName}
 
 rm ${imageName}_${buildDate}.simg
 sudo singularity build ${imageName}_${buildDate}.simg Singularity.${imageName}
+
+source ../setupSwift.sh
+swift upload singularityImages ${imageName}_${buildDate}.simg
 
 git commit -am 'auto commit after build run'
 git push

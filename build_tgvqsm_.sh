@@ -24,15 +24,11 @@ imageName=${imageName}_${buildPlatform}
 
 echo "building $imageName"
 
-
 #install neurodocker
 #pip3 install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user
 
 #upgrade neurodocker
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
-#or
-#pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
-
 
 neurodocker generate docker \
    --base=neurodebian:jessie \
@@ -52,6 +48,7 @@ neurodocker generate docker \
    --workdir /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 \
    --run "python setup.py install" \
    --user=neuro \
+   --env DEPLOY_PATH=/usr/local/bin/:/bet2/:/opt/dcm2niix-latest/bin \
    > Dockerfile.${imageName}
 
 
@@ -75,7 +72,7 @@ docker push caid/${imageName}:latest
 echo "BootStrap:docker" > Singularity.${imageName}
 echo "From:caid/${imageName}" >> Singularity.${imageName}
 
-rm ${imageName}_${buildDate}.simg
+#rm ${imageName}_${buildDate}.simg
 sudo singularity build ${imageName}_${buildDate}.simg Singularity.${imageName}
 
 source ../setupSwift.sh

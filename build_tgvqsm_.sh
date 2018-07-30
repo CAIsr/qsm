@@ -2,13 +2,6 @@
 
 imageName='tgvqsm'
 buildDate=`date +%Y%m%d`
-buildPlatform=`cat /proc/cpuinfo | grep 'vendor' | uniq | cut -d ' ' -f 2`
-
-if [ "$(buildPlatform)" != 'AuthenticAMD' ]; then
-   buildPlatform='amd'
-fi
-
-imageName=${imageName}_${buildPlatform}
 
 echo "building $imageName"
 
@@ -21,13 +14,15 @@ echo "building $imageName"
 #pip install --no-cache-dir https://github.com/stebo85/neurodocker/tarball/master --upgrade
 
 
-
 neurodocker generate docker \
    --base=neurodebian:jessie \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir /90days /30days /QRISdata /RDS /data /short /proc_temp /TMPDIR /nvme /local /gpfs1 /working" \
+   --run="mkdir `cat /qrisvolume/globalMountPointList.txt`" \
+   --run="git clone https://github.com/liangfu/bet2.git" \
+   --workdir /bet2/build \
+   --run="cmake .. && make" \
    --dcm2niix version=latest method=source \
    --install apt_opts='--quiet' python-setuptools wget unzip python3 python-numpy python-nibabel cython \
    --workdir /\

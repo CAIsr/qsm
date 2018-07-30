@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-imageName='tgvqsm'
+imageName='tgvqsm_fsl_5p0p11'
 buildDate=`date +%Y%m%d`
 
 
@@ -41,10 +41,7 @@ neurodocker generate docker \
    --run="chmod +x /usr/bin/ll" \
    --copy globalMountPointList.txt /globalMountPointList.txt \
    --run="mkdir \`cat /globalMountPointList.txt\`" \
-   --install apt_opts='--quiet' cmake git python-setuptools wget unzip python3 python-numpy python-nibabel cython \
-   --run="git clone https://github.com/liangfu/bet2.git" \
-   --workdir /bet2/build \
-   --run="cmake .. && make" \
+   --install apt_opts='--quiet' python-setuptools wget unzip python3 python-numpy python-nibabel cython \
    --dcm2niix version=latest method=source \
    --workdir /\
    --run "wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip" \
@@ -52,6 +49,7 @@ neurodocker generate docker \
    --workdir /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 \
    --run "python setup.py install" \
    --fsl version=5.0.11 \
+   --env DEPLOY_PATH=/usr/local/bin/:/opt/dcm2niix-latest/bin:/opt/fsl-5.0.11/bin/ \
    --user=neuro \
    > Dockerfile.${imageName}
 

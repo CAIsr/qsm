@@ -20,11 +20,11 @@ neurodocker generate docker \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
    --run="mkdir `cat /qrisvolume/globalMountPointList.txt`" \
+   --install apt_opts='--quiet' cmake git python-setuptools wget unzip python3 python-numpy python-nibabel cython \
    --run="git clone https://github.com/liangfu/bet2.git" \
    --workdir /bet2/build \
    --run="cmake .. && make" \
    --dcm2niix version=latest method=source \
-   --install apt_opts='--quiet' python-setuptools wget unzip python3 python-numpy python-nibabel cython \
    --workdir /\
    --run "wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip" \
    --run "unzip /TGVQSM-plus.zip" \

@@ -57,5 +57,8 @@ echo "From:caid/${imageName}" >> Singularity.${imageName}
 rm ${imageName}_${buildDate}.simg
 sudo singularity build ${imageName}_${buildDate}.simg Singularity.${imageName}
 
+source ../setupSwift.sh
+swift upload singularityImages ${imageName}_${buildDate}.simg
+
 git commit -am 'auto commit after build run'
 git push

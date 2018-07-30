@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 imageName='tgvqsm'
 buildDate=`date +%Y%m%d`
@@ -19,7 +20,8 @@ neurodocker generate docker \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
-   --run="mkdir `cat /qrisvolume/globalMountPointList.txt`" \
+   --copy ../globalMountPointList.txt /globalMountPointList.txt \
+   --run="mkdir `cat /globalMountPointList.txt`" \
    --install apt_opts='--quiet' cmake git python-setuptools wget unzip python3 python-numpy python-nibabel cython \
    --run="git clone https://github.com/liangfu/bet2.git" \
    --workdir /bet2/build \

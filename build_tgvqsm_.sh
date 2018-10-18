@@ -12,17 +12,21 @@ echo $buildPlatform
 if [ "$buildPlatform" = "AuthenticAMD" ]; then
    echo "detected amd"
    export buildPlatform='amd'
+   model=`cat /proc/cpuinfo | grep 'model name' | uniq | cut -d ' ' -f 5`
  fi
 
  if [ "$buildPlatform" = "GenuineIntel" ]; then
    echo "detected intel"
    export buildPlatform='intel'
+   export model=`cat /proc/cpuinfo | grep 'model name' | uniq | cut -d ' ' -f 6`
  fi
 
-imageName=${imageName}_${buildPlatform}
+imageName=${imageName}_${buildPlatform}_${model}
 
 
 echo "building $imageName"
+
+exit 0
 
 #install neurodocker
 #pip3 install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user

@@ -26,7 +26,7 @@ imageName=${imageName}_${buildPlatform}_${model}
 
 echo "building $imageName"
 
-exit 0
+#exit 0
 
 #install neurodocker
 #pip3 install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --user

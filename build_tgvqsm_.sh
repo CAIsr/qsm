@@ -18,7 +18,7 @@ if [ "$buildPlatform" = "AuthenticAMD" ]; then
  if [ "$buildPlatform" = "GenuineIntel" ]; then
    echo "detected intel"
    export buildPlatform='intel'
-   export model=`cat /proc/cpuinfo | grep 'model name' | uniq | cut -d ' ' -f 6`
+   export model=`cat /proc/cpuinfo | grep 'model name' | uniq | cut -d ' ' -f 6 | cut -d '-' -f 2`
  fi
 
 imageName=${imageName}_${buildPlatform}_${model}

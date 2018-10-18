@@ -2,3 +2,5 @@ tgv.img
 testfiles/
 *.simg
 Singularity.*
+Dockerfile.*
+globalMountPointList.txt

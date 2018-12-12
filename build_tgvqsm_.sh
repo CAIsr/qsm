@@ -5,23 +5,23 @@ imageName='tgvqsm'
 buildDate=`date +%Y%m%d`
 
 
-buildPlatform=`cat /proc/cpuinfo | grep 'vendor' | uniq | cut -d ' ' -f 2`
+#buildPlatform=`cat /proc/cpuinfo | grep 'vendor' | uniq | cut -d ' ' -f 2`
 
-echo $buildPlatform
+#echo $buildPlatform
 
-if [ "$buildPlatform" = "AuthenticAMD" ]; then
-   echo "detected amd"
-   export buildPlatform='amd'
-   model=`cat /proc/cpuinfo | grep 'model name' | uniq | cut -d ' ' -f 5`
- fi
+#if [ "$buildPlatform" = "AuthenticAMD" ]; then
+#   echo "detected amd"
+#   export buildPlatform='amd'
+#   model=`cat /proc/cpuinfo | grep 'model name' | uniq | cut -d ' ' -f 5`
+# fi
 
- if [ "$buildPlatform" = "GenuineIntel" ]; then
-   echo "detected intel"
-   export buildPlatform='intel'
-   export model=`cat /proc/cpuinfo | grep 'model name' | uniq | cut -d ' ' -f 6 | cut -d '-' -f 2`
- fi
+# if [ "$buildPlatform" = "GenuineIntel" ]; then
+#   echo "detected intel"
+#   export buildPlatform='intel'
+#   export model=`cat /proc/cpuinfo | grep 'model name' | uniq | cut -d ' ' -f 6 | cut -d '-' -f 2`
+# fi
 
-imageName=${imageName}_${buildPlatform}_${model}
+#imageName=${imageName}_${buildPlatform}_${model}
 
 
 echo "building $imageName"
@@ -35,7 +35,7 @@ echo "building $imageName"
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
 
 neurodocker generate docker \
-   --base=ubuntu:18.04 \
+   --base=ubuntu:14.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -53,7 +53,7 @@ neurodocker generate docker \
    --run "python setup.py install" \
    --user=neuro \
    --env DEPLOY_PATH=/usr/local/bin/:/bet2/:/opt/dcm2niix-latest/bin \
-   > Dockerfile.${imageName}
+#   > Dockerfile.${imageName}
 
 
 

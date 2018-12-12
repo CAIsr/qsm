@@ -35,7 +35,7 @@ echo "building $imageName"
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
 
 neurodocker generate docker \
-   --base=ubuntu:14.04 \
+   --base=debian:jessie \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \
@@ -53,7 +53,7 @@ neurodocker generate docker \
    --run "python setup.py install" \
    --user=neuro \
    --env DEPLOY_PATH=/usr/local/bin/:/bet2/:/opt/dcm2niix-latest/bin \
-#   > Dockerfile.${imageName}
+   > Dockerfile.${imageName}
 
 
 

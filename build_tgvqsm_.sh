@@ -35,7 +35,7 @@ echo "building $imageName"
 #pip install --no-cache-dir https://github.com/kaczmarj/neurodocker/tarball/master --upgrade
 
 neurodocker generate docker \
-   --base=ubuntu:16.04 \
+   --base=ubuntu:18.04 \
    --pkg-manager apt \
    --run="printf '#!/bin/bash\nls -la' > /usr/bin/ll" \
    --run="chmod +x /usr/bin/ll" \

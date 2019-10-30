@@ -101,7 +101,7 @@ WSL 1.0 doesn't support singularity or docker containers (but WSL 2.0 will). But
 ```
 wget https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh
 bash Miniconda2-latest-Linux-x86_64.sh
-conda install cython==0.25.2
+conda install -c anaconda cython==0.25.2
 conda install numpy
 pip install scipy==0.17.1
 wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip

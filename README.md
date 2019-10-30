@@ -105,9 +105,19 @@ conda install -c anaconda cython==0.25.2
 conda install numpy
 pip install scipy==0.17.1
 wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip
+sudo apt install unzip
 unzip TGVQSM-plus.zip
 cd TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3
 python setup.py install
 cd test_data
 tgv_qsm  -p epi3d_test_phase.nii.gz -m epi3d_test_mask.nii.gz -f 2.89 -t 0.027 -o epi3d_test_QSM
 ```
+
+# Adding fsl to WSL Ubuntu 18.04
+```
+wget -O- http://neuro.debian.net/lists/bionic.us-ca.full | sudo tee /etc/apt/sources.list.d/neurodebian.sources.list
+sudo apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9
+sudo apt-get update
+sudo apt-get install fsl-5.0-core
+```
+add ". /etc/fsl/5.0/fsl.sh" to the end of your .profile file

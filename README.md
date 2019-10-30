@@ -108,6 +108,6 @@ wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip
 unzip TGVQSM-plus.zip
 cd TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3
 python setup.py install
-cd testdata
+cd test_data
 tgv_qsm  -p epi3d_test_phase.nii.gz -m epi3d_test_mask.nii.gz -f 2.89 -t 0.027 -o epi3d_test_QSM
 ```

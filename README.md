@@ -10,7 +10,16 @@ Fast Quantitative Susceptibility Mapping using 3D EPI and Total Generalized Vari
 Neuroimage. 2015 May 1;111:622-30. doi: 10.1016/j.neuroimage.2015.02.041. PubMed 
 
 # Using the image in singularity
+installing singularity will depend on your operating system, here an exampe for ubuntu xenial
 ```
+sudo wget -O- http://neuro.debian.net/lists/xenial.us-ca.full | sudo tee /etc/apt/sources.list.d/neurodebian.sources.list
+sudo apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9
+sudo apt-get update
+sudo apt-get install -y singularity-container
+```
+
+then you can download and run the container:
+``` 
 singularity shell shub://CAIsr/qsm
 ```
 
@@ -48,6 +57,11 @@ singularity exec CAIsr-qsm-v1.2.3-latest.simg tgv_qsm \
   -s \
   -o qsm
 ```
+The -s option will scale the phase correctly if the phase dicom values are between -2048 and 2048 (should be default on Siemens VD and VE platforms). On the VB platform the phase is between 0 and 4096, so omit the -s option and scale the phase between -pi and pi:
+
+```
+fslmaths phase.nii -div 4096 -mul 6.28318530718 -sub 3.14159265359 phase_scaled.nii
+```
 
 And an example for a multiecho QSM pipeline:
 ```
@@ -78,7 +92,13 @@ for echoNbr in {0..5}; do
         -o tgvqsm
 done
 
+```
 
+After processing every echo, the data can be combined, by diving the sum of the QSMs by the sum of the masks - e.g.:
+```
+fslmaths /data/${subject}_gre6magni_split_000${echoNbr}_bet_mask.nii -add /data/${subject}_gre6magni_split_000${echoNbr}_bet_mask.nii .... mask_sum
+fslmaths qsm_echo1 -add qsm_echo2 .... qsm_sum
+fslmaths qsm_sum -div mask_sum final_qsm.nii
 ```
 
 # Using the image in docker

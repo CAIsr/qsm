@@ -87,7 +87,7 @@ for echoNbr in {0..5}; do
         -m /data/${subject}_gre6magni_split_000${echoNbr}_bet_mask.nii \
         -f 2.89 \
         -e 0 \
-        -t ${echoTime[5]} \
+        -t ${echoTime[echoNbr]} \
         -s \
         -o tgvqsm
 done
@@ -96,8 +96,8 @@ done
 
 After processing every echo, the data can be combined, by diving the sum of the QSMs by the sum of the masks - e.g.:
 ```
-fslmaths /data/${subject}_gre6magni_split_000${echoNbr}_bet_mask.nii -add /data/${subject}_gre6magni_split_000${echoNbr}_bet_mask.nii .... mask_sum
-fslmaths qsm_echo1 -add qsm_echo2 .... qsm_sum
+fslmaths /data/${subject}_gre6magni_split_0001_bet_mask.nii -add /data/${subject}_gre6magni_split_0002_bet_mask.nii [...] mask_sum
+fslmaths qsm_echo1 -add qsm_echo2 [...] qsm_sum
 fslmaths qsm_sum -div mask_sum final_qsm.nii
 ```
 

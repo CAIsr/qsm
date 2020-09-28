@@ -116,16 +116,20 @@ tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
 # Progress: [ ] 0.0% Illegal instruction
 If this error comes up it means that the image was built on a CPU incompatible to the one your are running it on now. I haven't found a good workaround yet, except building the image again on this CPU type. If anyone has an idea how to solve this please get in touch :)
 
-# Using tgv_qsm in Windows Subsystem for Linux (WSL 1.0)
+# Using tgv_qsm in Windows Subsystem for Linux (WSL 1.0) (example: Debian based system)
 WSL 1.0 doesn't support singularity or docker containers (but WSL 2.0 will). But it is possible to directly install TGV QSM in a miniconda environment:
 ```
-wget https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh
-bash Miniconda2-latest-Linux-x86_64.sh
+sudo apt install wget unzip gcc
+wget https://repo.anaconda.com/miniconda/Miniconda2-4.6.14-Linux-x86_64.sh
+bash Miniconda2-4.6.14-Linux-x86_64.sh
+(install, accept agreement with yes, after install source bash again:)
+bash
 conda install -c anaconda cython==0.25.2
 conda install numpy
-pip install scipy==0.17.1
+conda install pyparsing
+(make sure pip is not your system pip, but the one in miniconda: which pip)
+pip install scipy==0.17.1 nibabel==2.1.0
 wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip
-sudo apt install unzip
 unzip TGVQSM-plus.zip
 cd TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3
 python setup.py install

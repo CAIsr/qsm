@@ -1,10 +1,8 @@
 # QSM Pipeline
 
-[![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/557)
+This docker and singularity image provides the tgv-qsm algorithm (http://www.neuroimaging.at/pages/qsm.php). 
 
-This docker and singularity image bundles the tgv-qsm algorithm (http://www.neuroimaging.at/pages/qsm.php) with fsl (https://www.fmrib.ox.ac.uk/fsl) and dcm2niix (https://github.com/rordenlab/dcm2niix) and all necessary dependencies. This image provides a complete QSM processing pipeline starting from converting dicom images to nii, creating the brain mask using bet, rescaling phase data, running tgv on this data and checking the outputs.
-
-If you use this image, this is the reference describing the QSM algorithm:
+If you use this image, this is the reference to cite describing the QSM algorithm:
 Langkammer, C; Bredies, K; Poser, BA; Barth, M; Reishofer, G; Fan, AP; Bilgic, B; Fazekas, F; Mainero; C; Ropele, S
 Fast Quantitative Susceptibility Mapping using 3D EPI and Total Generalized Variation.
 Neuroimage. 2015 May 1;111:622-30. doi: 10.1016/j.neuroimage.2015.02.041. PubMed 
@@ -20,36 +18,32 @@ sudo apt-get install -y singularity-container
 
 then you can download and run the container:
 ``` 
-singularity shell shub://CAIsr/qsm
+git clone https://github.com/NeuroDesk/transparent-singularity tgvqsm_1.0.0_20200929
+cd tgvqsm_1.0.0_20200929
+./run_transparent_singularity.sh tgvqsm_1.0.0_20200929
 ```
 
-this will download the image, unpack it and then start a shell in the image mounting the folder where you executed the command from:
+this will download the image, unpack it and provide a wrapper script for starting tgv_qsm:
+
+The wrapper script can be started using
+```
+./tgv_qsm
 
 ```
-Progress |===================================| 100.0%
-Singularity: Invoking an interactive shell within container...
 
+Or you can open a shell into the container:
+```
+ singularity shell tgvqsm_1.0.0_20200929.*
 ```
 
 you can also bind a different directory to your image (e.g. bind /data from your host to /data in your singularity image)
 ```
-singularity shell --bind /data:/data/ CAIsr-qsm-v1.2.3-latest.simg
+singularity shell --bind /data:/data/ tgvqsm_1.0.0_20200929.*
 ```
 
-or you can just run a single application from the image:
+Here is an example for a single echo QSM processing:
 ```
-singularity exec CAIsr-qsm-v1.2.3-latest.simg bet2
-```
-
-Here is an example for a single echo QSM pipeline:
-```
-singularity exec CAIsr-qsm-v1.2.3-latest.simg dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
-
-singularity exec CAIsr-qsm-v1.2.3-latest.simg dcm2niix -o ./ -f phase GR_P_6_QSM_p2_1mmIso_TE20/
-
-singularity exec CAIsr-qsm-v1.2.3-latest.simg bet2 magnitude.nii magnitude_bet2
-
-singularity exec CAIsr-qsm-v1.2.3-latest.simg tgv_qsm \
+tgv_qsm \
   -p phase.nii \
   -m magnitude_bet2_mask.nii.gz \
   -f 2.89 \
@@ -59,64 +53,22 @@ singularity exec CAIsr-qsm-v1.2.3-latest.simg tgv_qsm \
 ```
 The -s option will scale the phase correctly if the phase dicom values are between -2048 and 2048 (should be default on Siemens VD and VE platforms). On the VB platform the phase is between 0 and 4096, so omit the -s option and scale the phase between -pi and pi:
 
-```
-fslmaths phase.nii -div 4096 -mul 6.28318530718 -sub 3.14159265359 phase_scaled.nii
-```
-
-And an example for a multiecho QSM pipeline:
-```
-subject=yoursubjectID
-
-echoTime=(`seq 0.0049 0.0049 0.0295`)
-
-fslsplit ${subject}_gre6magni.nii ${subject}_gre6magni_split_
-fslsplit ${subject}_gre6phase.nii ${subject}_gre6phase_split_
-
-for echoNbr in {0..5}; do
- bet ${subject}_gre6magni_split_000${echoNbr}.nii ${subject}_gre6magni_split_000${echoNbr}_bet -R -f 0.6 -m
- fslcpgeom ${subject}_gre6magni_split_000${echoNbr}_bet_mask.nii ${subject}_gre6phase_split_000${echoNbr}.nii
-done
-
-for echoNbr in {0..5}; do
-        singularity \
-        exec \
-        --bind $PWD:/data \
-        CAIsr-qsm-v1.2.3-latest.simg \
-        tgv_qsm \
-        -p /data/${subject}_gre6phase_split_000${echoNbr}.nii \
-        -m /data/${subject}_gre6magni_split_000${echoNbr}_bet_mask.nii \
-        -f 2.89 \
-        -e 0 \
-        -t ${echoTime[echoNbr]} \
-        -s \
-        -o tgvqsm
-done
-
-```
-
-After processing every echo, the data can be combined, by diving the sum of the QSMs by the sum of the masks - e.g.:
-```
-fslmaths /data/${subject}_gre6magni_split_0001_bet_mask.nii -add /data/${subject}_gre6magni_split_0002_bet_mask.nii [...] mask_sum
-fslmaths qsm_echo1 -add qsm_echo2 [...] qsm_sum
-fslmaths qsm_sum -div mask_sum final_qsm.nii
-```
-
 # Using the image in docker
 ```
-sudo docker pull caid/qsm
-sudo docker run -it -v $PWD:/data caid/qsm
+docker pull vnmd/tgvqsm_1.0.0:20200929
+sudo docker run -it -v $PWD:/data vnmd/tgvqsm_1.0.0:20200929
 
 cd data
-dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
-dcm2niix -o ./ -f phase GR_P_6_QSM_p2_1mmIso_TE20/
-bet2 magnitude.nii magnitude_bet2
 tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
 ```
 
 # Progress: [ ] 0.0% Illegal instruction
 If this error comes up it means that the image was built on a CPU incompatible to the one your are running it on now. I haven't found a good workaround yet, except building the image again on this CPU type. If anyone has an idea how to solve this please get in touch :)
 
-# Using tgv_qsm in Windows Subsystem for Linux (WSL 1.0) (example: Debian based system)
+# The pipeline runs, but the output just contains zeros
+If this error comes up it means that the image was built on a CPU incompatible to the one your are running it on now. I haven't found a good workaround yet, except building the image again on this CPU type. If anyone has an idea how to solve this please get in touch :)
+
+# Using tgv_qsm in Windows Subsystem for Linux (example: Debian based system)
 WSL 1.0 doesn't support singularity or docker containers (but WSL 2.0 will). But it is possible to directly install TGV QSM in a miniconda environment:
 ```
 sudo apt install wget unzip gcc

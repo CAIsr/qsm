@@ -8,12 +8,35 @@ Fast Quantitative Susceptibility Mapping using 3D EPI and Total Generalized Vari
 Neuroimage. 2015 May 1;111:622-30. doi: 10.1016/j.neuroimage.2015.02.041. PubMed 
 
 # Using the image in singularity
-installing singularity will depend on your operating system, here an exampe for ubuntu xenial
+installing singularity will depend on your operating system, here an exampe for a debian based system
 ```
-sudo wget -O- http://neuro.debian.net/lists/xenial.us-ca.full | sudo tee /etc/apt/sources.list.d/neurodebian.sources.list
-sudo apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9
-sudo apt-get update
-sudo apt-get install -y singularity-container
+sudo apt-get update && sudo apt-get install -y \
+    build-essential \
+    uuid-dev \
+    libgpgme-dev \
+    squashfs-tools \
+    libseccomp-dev \
+    wget \
+    pkg-config \
+    git \
+    cryptsetup-bin
+
+wget https://golang.org/dl/go1.15.2.linux-amd64.tar.gz
+
+tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz
+
+export PATH=$PATH:/usr/local/go/bin
+
+export VERSION=3.6.3 && # adjust this as necessary \
+    wget https://github.com/sylabs/singularity/releases/download/v${VERSION}/singularity-${VERSION}.tar.gz && \
+    tar -xzf singularity-${VERSION}.tar.gz && \
+    cd singularity
+
+
+./mconfig && \
+    make -C ./builddir && \
+    sudo make -C ./builddir install
+
 ```
 
 then you can download and run the container:

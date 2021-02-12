@@ -47,7 +47,7 @@ neurodocker generate docker \
    --run "wget http://www.neuroimaging.at/media/qsm/TGVQSM-plus.zip" \
    --run "unzip /TGVQSM-plus.zip" \
    --workdir /TGVQSM-master-011045626121baa8bfdd6633929974c732ae35e3 \
-   --run "python setup.py install" \
+   --run "sed -i 's/march=native/march=x86-64/g' setup.py && python setup.py install" \
    --fsl version=5.0.11 \
    --env DEPLOY_PATH=/usr/local/bin/:/opt/dcm2niix-latest/bin:/opt/fsl-5.0.11/bin/ \
    --user=neuro \

@@ -88,11 +88,8 @@ cd data
 tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
 ```
 
-# Progress: [ ] 0.0% Illegal instruction
-If this error comes up it means that the image was built on a CPU incompatible to the one your are running it on now. I haven't found a good workaround yet, except building the image again on this CPU type. If anyone has an idea how to solve this please get in touch :)
-
-# The pipeline runs, but the output just contains zeros
-If this error comes up it means that the image was built on a CPU incompatible to the one your are running it on now. I haven't found a good workaround yet, except building the image again on this CPU type. If anyone has an idea how to solve this please get in touch :)
+# Optimizing for your CPU
+By default, QSM is compiled with the `-O3 -march=x86-64` which should provide a good balance between speed and portability. If you know what CPU you're going to be using you can compile with that instruction set to improve performance (e.g. `-march=ivybridge` for Intel Ivy Bridge CPUs, `-march=native` for whatever CPU you're currently on). If you would like maximum portability, you can recompile omitting the `-march` flag altogether. 
 
 # Using tgv_qsm in Windows Subsystem for Linux (example: Debian based system)
 WSL 1.0 doesn't support singularity or docker containers (but WSL 2.0 will). But it is possible to directly install TGV QSM in a miniconda environment:

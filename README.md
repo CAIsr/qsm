@@ -81,8 +81,8 @@ The -s option will scale the phase correctly if the phase dicom values are betwe
 
 # Using the image in docker
 ```
-docker pull vnmd/tgvqsm_1.0.0:20200929
-sudo docker run -it -v $PWD:/data vnmd/tgvqsm_1.0.0:20200929
+docker pull vnmd/tgvqsm_1.0.0:20210215
+sudo docker run -it -v $PWD:/data vnmd/tgvqsm_1.0.0:20210215
 
 cd data
 tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm

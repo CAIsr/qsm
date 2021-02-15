@@ -44,9 +44,9 @@ export VERSION=3.6.3 && # adjust this as necessary \
 
 then you can download and run the container:
 ``` 
-git clone https://github.com/NeuroDesk/transparent-singularity tgvqsm_1.0.0_20200929
-cd tgvqsm_1.0.0_20200929
-./run_transparent_singularity.sh tgvqsm_1.0.0_20200929
+git clone https://github.com/NeuroDesk/transparent-singularity tgvqsm_1.0.0_20210215
+cd tgvqsm_1.0.0_20210215
+./run_transparent_singularity.sh tgvqsm_1.0.0_20210215
 ```
 
 this will download the image, unpack it and provide a wrapper script for starting tgv_qsm:
@@ -59,12 +59,12 @@ The wrapper script can be started using
 
 Or you can open a shell into the container:
 ```
- singularity shell tgvqsm_1.0.0_20200929.*
+ singularity shell tgvqsm_1.0.0_20210215.*
 ```
 
 you can also bind a different directory to your image (e.g. bind /data from your host to /data in your singularity image)
 ```
-singularity shell --bind /data:/data/ tgvqsm_1.0.0_20200929.*
+singularity shell --bind /data:/data/ tgvqsm_1.0.0_20210215.*
 ```
 
 Here is an example for a single echo QSM processing:

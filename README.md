@@ -7,6 +7,9 @@ Langkammer, C; Bredies, K; Poser, BA; Barth, M; Reishofer, G; Fan, AP; Bilgic, B
 Fast Quantitative Susceptibility Mapping using 3D EPI and Total Generalized Variation.
 Neuroimage. 2015 May 1;111:622-30. doi: 10.1016/j.neuroimage.2015.02.041. PubMed 
 
+# If you are looking for a full QSM pipeline including dicom conversion, QSM solution, image segmentation, atlas building
+https://github.com/QSMxT/QSMxT 
+
 # Using the image in singularity
 installing singularity will depend on your operating system, here an exampe for a debian based system
 ```

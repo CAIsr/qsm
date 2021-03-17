@@ -44,9 +44,9 @@ export VERSION=3.6.3 && # adjust this as necessary \
 
 then you can download and run the container:
 ``` 
-git clone https://github.com/NeuroDesk/transparent-singularity tgvqsm_1.0.0_20210215
-cd tgvqsm_1.0.0_20210215
-./run_transparent_singularity.sh tgvqsm_1.0.0_20210215
+git clone https://github.com/NeuroDesk/transparent-singularity tgvqsm_1.0.0_20210317
+cd tgvqsm_1.0.0_20210317
+./run_transparent_singularity.sh tgvqsm_1.0.0_20210317
 ```
 
 this will download the image, unpack it and provide a wrapper script for starting tgv_qsm:
@@ -59,16 +59,21 @@ The wrapper script can be started using
 
 Or you can open a shell into the container:
 ```
- singularity shell tgvqsm_1.0.0_20210215.*
+ singularity shell tgvqsm_1.0.0_20210317.*
 ```
 
 you can also bind a different directory to your image (e.g. bind /data from your host to /data in your singularity image)
 ```
-singularity shell --bind /data:/data/ tgvqsm_1.0.0_20210215.*
+singularity shell --bind /data:/data/ tgvqsm_1.0.0_20210317.*
 ```
 
 Here is an example for a single echo QSM processing:
 ```
+dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
+dcm2niix -o ./ -f phase GR_P_6_QSM_p2_1mmIso_TE20/
+
+bet2 magnitude.nii magnitude_bet2
+
 tgv_qsm \
   -p phase.nii \
   -m magnitude_bet2_mask.nii.gz \
@@ -81,10 +86,15 @@ The -s option will scale the phase correctly if the phase dicom values are betwe
 
 # Using the image in docker
 ```
-docker pull vnmd/tgvqsm_1.0.0:20210215
-sudo docker run -it -v $PWD:/data vnmd/tgvqsm_1.0.0:20210215
+docker pull vnmd/tgvqsm_1.0.0:20210317
+sudo docker run -it -v $PWD:/data vnmd/tgvqsm_1.0.0:20210317
 
-cd data
+cd /data
+dcm2niix -o ./ -f magnitude GR_M_5_QSM_p2_1mmIso_TE20/
+dcm2niix -o ./ -f phase GR_P_6_QSM_p2_1mmIso_TE20/
+
+bet2 magnitude.nii magnitude_bet2
+
 tgv_qsm -p phase.nii -m magnitude_bet2_mask.nii.gz -f 2.89 -t 0.02 -s -o qsm
 ```
 

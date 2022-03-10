@@ -10,7 +10,11 @@ Neuroimage. 2015 May 1;111:622-30. doi: 10.1016/j.neuroimage.2015.02.041. PubMed
 # If you are looking for a full QSM pipeline including dicom conversion, QSM solution, image segmentation, atlas building
 https://github.com/QSMxT/QSMxT 
 
-# Using the image in singularity
+
+# We recommend running this container in the Neurodesk environment for ease of use: https://neurodesk.github.io/
+
+
+### Using the image in singularity (deprecated)
 installing singularity will depend on your operating system, here an exampe for a debian based system
 ```
 sudo apt-get update && sudo apt-get install -y \
